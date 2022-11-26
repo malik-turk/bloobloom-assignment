@@ -17,29 +17,20 @@
   />
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import SideBar from "../components/SideBar.vue";
 
-export default {
-  components: {
-    SideBar,
-  },
-  data() {
-    return {
-      isSideBarVisible: true,
-    };
-  },
-  methods: {
-    /**
-     * Change sidebar visibility based on given params
-     *
-     * @param {bool} shouldShow sidebar toggler
-     * @return void
-     */
-    changeSideBarVisibility(shouldShow = false) {
-      this.isSideBarVisible = shouldShow;
-    },
-  },
+let isSideBarVisible = ref(false);
+
+/**
+ * Change sidebar visibility based on given params
+ *
+ * @param {bool} shouldShow sidebar toggler
+ * @return void
+ */
+const changeSideBarVisibility = (shouldShow = false) => {
+  isSideBarVisible.value = shouldShow;
 };
 </script>
 
