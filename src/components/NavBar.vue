@@ -1,14 +1,46 @@
 <template>
   <nav>
-    <button>MENU</button>
+    <button
+      @mouseenter="changeSideBarVisibility(true)"
+      @mouseleave="changeSideBarVisibility(false)"
+    >
+      MENU
+    </button>
     <div class="brand-icon">
       <img src="../assets/images/logo.png" alt="logo" />
     </div>
   </nav>
+  <SideBar
+    @mouseenter="changeSideBarVisibility(true)"
+    @mouseleave="changeSideBarVisibility(false)"
+    :is-side-bar-visible="isSideBarVisible"
+  />
 </template>
 
 <script>
-export default {};
+import SideBar from "../components/SideBar.vue";
+
+export default {
+  components: {
+    SideBar,
+  },
+  data() {
+    return {
+      isSideBarVisible: true,
+    };
+  },
+  methods: {
+    /**
+     * Change sidebar visibility based on given params
+     *
+     * @param {bool} shouldShow sidebar toggler
+     * @return void
+     */
+    changeSideBarVisibility(shouldShow = false) {
+      this.isSideBarVisible = shouldShow;
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
