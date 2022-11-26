@@ -39,7 +39,7 @@ export default {
 
 <style scoped lang="scss">
 .side-bar {
-  position: absolute;
+  position: fixed;
   left: -400px;
   top: 63px;
   height: calc(100vh - 63px);
@@ -47,6 +47,7 @@ export default {
   transition: left 400ms ease;
   border-right: 1px solid #000;
   text-transform: uppercase;
+  user-select: none;
 }
 
 .sidebar--open {
