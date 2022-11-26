@@ -27,6 +27,11 @@ button {
   background: #fff;
   border: none;
   outline: 0;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .brand-icon {
