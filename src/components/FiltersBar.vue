@@ -37,6 +37,7 @@ import { filters } from "../constants/filters";
   position: relative;
   width: 150px;
   cursor: pointer;
+  z-index: 1;
 
   span {
     text-align: center;

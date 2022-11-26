@@ -48,6 +48,8 @@ export default {
   border-right: 1px solid #000;
   text-transform: uppercase;
   user-select: none;
+  z-index: 1;
+  background: #fff;
 }
 
 .sidebar--open {
@@ -94,6 +96,8 @@ export default {
   border-right: 1px solid #000;
   border-top: 1px solid #000;
   display: none;
+  z-index: 1;
+  background: #fff;
 
   .side-menu-item {
     color: #000;
