@@ -1,6 +1,6 @@
 <template>
   <div class="filters-bar">
-    <h1>Spectacles Women</h1>
+    <h1>{{ collectionType }}</h1>
     <div class="filter-container">
       <div v-for="filter in filters" :key="filter.name" class="filter-option">
         <span>{{ filter.name }}</span>
@@ -35,6 +35,10 @@ const selectedColor = computed(() => {
 
 const selectedShape = computed(() => {
   return store.selected_filter_shape;
+});
+
+const collectionType = computed(() => {
+  return store.collectionType.replace("-", " ");
 });
 
 /**

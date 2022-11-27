@@ -1,5 +1,5 @@
 <template>
-  <aside class="side-bar" :class="{ 'sidebar--open': isSideBarVisible }">
+  <aside class="side-bar" :class="{ 'sidebar--open': props.isSideBarVisible }">
     <div
       v-for="menuItem in menuItems"
       :key="menuItem.name"
@@ -12,28 +12,33 @@
         alt="right arrow"
       />
       <div v-if="menuItem.subItems" class="sub-menu">
-        <span class="side-menu-item">Women</span>
-        <span class="side-menu-item">Men</span>
+        <span
+          class="side-menu-item"
+          @click="handleDataFetch(menuItem.name, 'women')"
+          >Women</span
+        >
+        <span
+          class="side-menu-item"
+          @click="handleDataFetch(menuItem.name, 'men')"
+          >Men</span
+        >
       </div>
     </div>
   </aside>
 </template>
 
-<script>
+<script setup>
 import { menuItems } from "../constants/collection-data";
+import { useGlassesStore } from "../store/glasses";
 
-export default {
-  data() {
-    return {
-      menuItems,
-    };
-  },
-  props: {
-    isSideBarVisible: {
-      type: Boolean,
-      default: () => false,
-    },
-  },
+const props = defineProps(["isSideBarVisible"]);
+const store = useGlassesStore();
+
+const handleDataFetch = (categoryName, gender) => {
+  store.$patch({
+    collectionType: `${categoryName.toLowerCase()}-${gender}`,
+  });
+  store.fetchCollection();
 };
 </script>
 

@@ -9,6 +9,7 @@ export const useGlassesStore = defineStore("glasses", {
     selected_filter_color: "black",
     selected_filter_shape: "round",
     collectionType: "spectacles-women",
+    isLoading: true,
   }),
   getters: {
     getCollection(state) {
@@ -17,6 +18,8 @@ export const useGlassesStore = defineStore("glasses", {
   },
   actions: {
     async fetchCollection() {
+      this.isLoading = true;
+
       try {
         const collectionEndpoint = COLLECTIONS_ENDPOINT.replace(
           "{COLLECTION_TYPE}",
@@ -26,10 +29,16 @@ export const useGlassesStore = defineStore("glasses", {
           "{COLOR_PARAM}",
           this.selected_filter_color
         ).replace("{SHAPE_PARAM}", this.selected_filter_shape);
-        const { data } = await axios.get(
-          `${BASE_URL}${collectionEndpoint}${params}`
-        );
-        this.collection = data;
+
+        // Use axios to fetch the data
+        const res = await axios
+          .get(`${BASE_URL}${collectionEndpoint}${params}`)
+          .then((res) => {
+            this.isLoading = false;
+            return res;
+          });
+
+        this.collection = res.data;
       } catch (error) {
         console.log(error);
       }
