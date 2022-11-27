@@ -17,7 +17,7 @@ export const useGlassesStore = defineStore("glasses", {
     },
   },
   actions: {
-    async fetchCollection() {
+    async fetchCollection(page = 1, isInfiniteScroll = false) {
       this.isLoading = true;
 
       try {
@@ -28,7 +28,9 @@ export const useGlassesStore = defineStore("glasses", {
         const params = PARAMS.replace(
           "{COLOR_PARAM}",
           this.selected_filter_color
-        ).replace("{SHAPE_PARAM}", this.selected_filter_shape);
+        )
+          .replace("{SHAPE_PARAM}", this.selected_filter_shape)
+          .replace("{PAGE_NUMBER}", page);
 
         // Use axios to fetch the data
         const res = await axios
@@ -38,7 +40,11 @@ export const useGlassesStore = defineStore("glasses", {
             return res;
           });
 
-        this.collection = res.data;
+        if (isInfiniteScroll) {
+          this.collection = [...this.collection, ...res.data.glasses];
+        } else {
+          this.collection = res.data.glasses;
+        }
       } catch (error) {
         console.log(error);
       }
