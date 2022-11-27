@@ -5,7 +5,14 @@
       <div v-for="filter in filters" :key="filter.name" class="filter-option">
         <span>{{ filter.name }}</span>
         <ul>
-          <li v-for="option in filter.filterOptions" :key="option">
+          <li
+            v-for="option in filter.filterOptions"
+            :key="option"
+            :class="{
+              selected: selectedColor === option || selectedShape === option,
+            }"
+            @click="handleFiltration(option, filter.name)"
+          >
             {{ option }}
           </li>
         </ul>
@@ -15,7 +22,37 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { useGlassesStore } from "../store/glasses";
+
 import { filters } from "../constants/filters";
+
+const store = useGlassesStore();
+
+const selectedColor = computed(() => {
+  return store.selected_filter_color;
+});
+
+const selectedShape = computed(() => {
+  return store.selected_filter_shape;
+});
+
+/**
+ * Filter and fetch data based on selected options
+ */
+const handleFiltration = (option, filterName) => {
+  if (filterName === "Colours") {
+    store.$patch({
+      selected_filter_color: option,
+    });
+  } else {
+    store.$patch({
+      selected_filter_shape: option,
+    });
+  }
+
+  store.fetchCollection();
+};
 </script>
 
 <style scoped lang="scss">
@@ -64,7 +101,11 @@ import { filters } from "../constants/filters";
       padding: 5px 10px;
       background: #fff;
 
-      &:hover {
+      &.selected {
+        background: rgb(0, 153, 255);
+      }
+
+      &:not(.selected):hover {
         background: rgb(219, 219, 219);
       }
     }

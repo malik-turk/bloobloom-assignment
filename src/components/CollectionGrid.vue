@@ -1,17 +1,24 @@
 <template>
   <section>
-    <div v-for="item in [1, 2, 3, 4, 5, 6, 7]" :key="item" class="product-item">
-      <img
-        src="https://d32y5z2afvomc1.cloudfront.net/glass_variants/255304141618fba6685e2c93efb2f3f9dc80eece.jpg"
-        alt=""
-      />
-      <span>TRAVELLER</span>
+    <div v-for="item in collectionData" :key="item" class="product-item">
+      <img :src="item.glass_variants[0].media[0].url" alt="Glasses Photo" />
+      <span>{{ item.name }}</span>
     </div>
   </section>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { ref, onMounted } from "vue";
+import { useGlassesStore } from "../store/glasses";
+
+const collectionData = ref([]);
+const store = useGlassesStore();
+
+onMounted(() => {
+  store.$subscribe(() => {
+    collectionData.value = store.collection?.glasses;
+  });
+});
 </script>
 
 <style scoped lang="scss">

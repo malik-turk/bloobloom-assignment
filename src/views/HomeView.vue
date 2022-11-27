@@ -4,18 +4,22 @@
   <CollectionGrid />
 </template>
 
-<script>
+<script setup>
+import { onMounted } from "vue";
+
+// Components
 import NavBar from "../components/NavBar.vue";
 import FiltersBar from "../components/FiltersBar.vue";
 import CollectionGrid from "../components/CollectionGrid.vue";
 
-export default {
-  components: {
-    NavBar,
-    FiltersBar,
-    CollectionGrid,
-  },
-};
+// Store
+import { useGlassesStore } from "../store/glasses";
+
+const store = useGlassesStore();
+
+onMounted(() => {
+  store.fetchCollection();
+});
 </script>
 
 <style lang="scss" scoped></style>
